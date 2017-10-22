@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+
+<div class="row">
+    <br/>
+    <br/>
+    <div>
+
+        @Html.DropDownList("Products", (IEnumerable<SelectListItem>)ViewBag.Products, new { @class = "form-control" })
+        <br/>
+        <button type="button" id="btnChart" class="btn btn-success">View Chart</button>
+        <br />
+        <br/>
+        <div class="col-md-12 col-md-6" id="dvChart">
+
+        </div>
+
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        function Init() {
+            $("#btnChart").click(function() {
+                var productId = $("#Products").val();
+                $.ajax({
+                    url: "/Home/Chart",
+                    type:"POST",
+                    data:{id:parseInt(productId)},
+                    dataType: "html",
+                    success: function(response) {
+                        $("#dvChart").html(response);
+                    }
+                });
+
+            });
+        }
+
+        Init();
+    </script>
+}
